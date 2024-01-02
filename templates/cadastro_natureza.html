@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Natureza</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form, table {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        td button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        td button:hover {
+            background-color: #218838;
+        }
+
+        td button.delete {
+            background-color: #dc3545;
+        }
+
+        td button.delete:hover {
+            background-color: #c82333;
+        }
+
+        #message {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #message.success {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        #message.error {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h2>Cadastro de Natureza</h2>
+
+    <!-- Formulário de Cadastro de Natureza -->
+    <form method="POST" action="{{ url_for('cadastro_natureza') }}">
+        <label for="nome_natureza">Nome da Natureza:</label>
+        <input type="text" id="nome_natureza" name="nome_natureza" required>
+
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required></textarea>
+
+        <label for="status_natureza">Status:</label>
+        <select id="status_natureza" name="status_natureza" required>
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+        </select>
+
+        <button type="submit">Cadastrar Natureza</button>
+    </form>
+
+    <a href="{{ url_for('menu', username='') }}">Voltar para o Menu</a>
+
+    <!-- Tabela de Visualização e Edição/Exclusão de Naturezas -->
+    <h2>Naturezas Cadastradas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Status</th>
+                <!-- Adicione mais colunas conforme necessário -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for natureza in naturezas %}
+                <tr>
+                    <td>{{ natureza.id_natureza }}</td>
+                    <td>{{ natureza.nome_natureza }}</td>
+                    <td>{{ natureza.descricao }}</td>
+                    <td>{{ natureza.status_natureza }}</td>
+                    <!-- Adicione mais colunas conforme necessário -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div id="message" class="success"></div>
+
+    <script>
+        function editNatureza(id) {
+            // Obter a linha da tabela correspondente à natureza com o ID
+            var row = document.getElementById('row-' + id);
+    
+            // Obter os elementos dentro da linha
+            var nomeElement = row.querySelector('.nome_natureza');
+            var descricaoElement = row.querySelector('.descricao');
+            var statusElement = row.querySelector('.status_natureza');
+    
+            // Salvar os valores atuais antes da edição
+            var nomeAtual = nomeElement.innerText;
+            var descricaoAtual = descricaoElement.innerText;
+            var statusAtual = statusElement.innerText;
+    
+            // Criar inputs para edição
+            nomeElement.innerHTML = `<input type="text" value="${nomeAtual}" id="edit-nome-${id}">`;
+            descricaoElement.innerHTML = `<textarea id="edit-descricao-${id}">${descricaoAtual}</textarea>`;
+            statusElement.innerHTML = `<select id="edit-status-${id}">
+                                        <option value="Ativo" ${statusAtual === 'Ativo' ? 'selected' : ''}>Ativo</option>
+                                        <option value="Inativo" ${statusAtual === 'Inativo' ? 'selected' : ''}>Inativo</option>
+                                      </select>`;
+    
+            // Ocultar botões de ação padrão (Editar e Excluir)
+            row.querySelector('.edit').style.display = 'none';
+            row.querySelector('.delete').style.display = 'none';
+    
+            // Exibir botões de salvar e cancelar
+            row.querySelector('.save').style.display = 'inline-block';
+            row.querySelector('.cancel').style.display = 'inline-block';
+        }
+    
+        function deleteNatureza(id) {
+            // Implementar lógica para exclusão, por exemplo, fazer uma requisição AJAX para o servidor
+            // Neste exemplo, vamos apenas exibir um alerta
+            var confirmDelete = confirm("Tem certeza que deseja excluir esta natureza?");
+            if (confirmDelete) {
+                // Fazer a requisição AJAX ou outra lógica de exclusão aqui
+                var mensagem = `Natureza com ID ${id} excluída com sucesso!`;
+                exibirMensagem(mensagem);
+
+                // Remover a linha da tabela localmente (opcional)
+                var row = document.getElementById('row-' + id);
+                row.parentNode.removeChild(row);
+            }
+        }
+    
+        function saveEdit(id) {
+            // Obter os valores editados
+            var nomeEditado = document.getElementById(`edit-nome-${id}`).value;
+            var descricaoEditada = document.getElementById(`edit-descricao-${id}`).value;
+            var statusEditado = document.getElementById(`edit-status-${id}`).value;
+
+            // Implementar a lógica para salvar as alterações, por exemplo, fazer uma requisição AJAX para o servidor
+            // Neste exemplo, apenas exibiremos uma mensagem
+            var mensagem = `Natureza com ID ${id} editada com sucesso!`;
+            exibirMensagem(mensagem);
+
+            // Restaurar a exibição padrão (ocultar botões de salvar/cancelar, exibir botões de editar/excluir)
+            restaurarExibicaoPadrao(id);
+        }
+
+        function exibirMensagem(mensagem) {
+            var messageElement = document.getElementById('message');
+            messageElement.innerText = mensagem;
+            messageElement.className = 'success'; // Adiciona a classe de sucesso
+            messageElement.style.display = 'block';
+
+            // Ocultar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(function () {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+
+        function restaurarExibicaoPadrao(id) {
+            // Restaurar os valores originais antes da edição
+            var row = document.getElementById('row-' + id);
+            row.querySelector('.nome_natureza').innerText = row.getAttribute('data-nome');
+            row.querySelector('.descricao').innerText = row.getAttribute('data-descricao');
+            row.querySelector('.status_natureza').innerText = row.getAttribute('data-status');
+
+            // Restaurar a exibição padrão (ocultar botões de salvar/cancelar, exibir botões de editar/excluir)
+            row.querySelector('.edit').style.display = 'inline-block';
+            row.querySelector('.delete').style.display = 'inline-block';
+            row.querySelector('.save').style.display = 'none';
+            row.querySelector('.cancel').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

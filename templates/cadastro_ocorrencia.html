@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ocorrência</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #007bff;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, textarea, select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        input[type="date"] {
+  width: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-align: center;
+}
+
+input[type="date"]:focus {
+  outline: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input[type="time"] {
+  width: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-align: center;
+}
+
+input[type="time"]:focus {
+  outline: none;
+}
+
+input[type="time"]::-webkit-time-picker-indicator {
+  display: none;
+}
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Registro de Ocorrência</h2>
+    <form action="/salvar_ocorrencia" method="post">
+        <h3>Dados da Ocorrência</h3>
+        <label for="endereco">Endereço da Ocorrência:</label>
+        <input type="text" id="endereco" name="endereco" required>
+
+        <label for="bairro">Bairro da Ocorrência:</label>
+        <input type="text" id="bairro" name="bairro" required>
+
+        <label for="municipio">Município da Ocorrência:</label>
+        <input type="text" id="municipio" name="municipio" required>
+
+        <label for="descricao">Descrição da Ocorrência:</label>
+        <textarea id="descricao" name="descricao" rows="4" required></textarea>
+
+        <label for="gravidade">Tipo de Gravidade:</label>
+        <select id="gravidade" name="gravidade" required>
+            <option value="baixa">Baixa</option>
+            <option value="media">Média</option>
+            <option value="urgente">Urgente</option>
+        </select>
+
+        <h3>Bombeiro Responsavel</h3>
+        <form method="post" action="/salvar_ocorrencia">
+            <!-- Outros campos do formulário -->
+            <input type="text" name="Bombeiro" placeholder="Nome do Bombeiro" required>
+        </select>
+
+        <h3>Dados Pessoais Vítima</h3>
+        <label for="nome_vitima">Nome:</label>
+        <input type="text" id="nome_vitima" name="nome_vitima" required>
+
+        <label for="endereco_vitima">Endereço:</label>
+        <input type="text" id="endereco_vitima" name="endereco_vitima" required>
+
+        <label for="numero_vitima">Número Casa ou Complemento:</label>
+        <input type="text" id="numero_vitima" name="numero_vitima" required>
+
+        <label for="rg_cpf_vitima">RG ou CPF:</label>
+        <select id="rg_cpf_vitima" name="rg_cpf_vitima" required>
+            <option value="rg">RG</option>
+            <option value="cpf">CPF</option>
+        </select>
+
+        <label for="orgao_expedidor">Orgão Expedidor (se RG):</label>
+        <input type="text" id="orgao_expedidor" name="orgao_expedidor">
+
+        <label for="sexo">Sexo:</label>
+        <select id="sexo" name="sexo" required>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="outro">Outro</option>
+        </select>
+
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" name="idade" required>
+
+        <label for="telefone_vitima">Telefone:</label>
+        <input type="tel" id="telefone_vitima" name="telefone_vitima" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="nome_mae">Nome da Mãe:</label>
+        <input type="text" id="nome_mae" name="nome_mae" required>
+
+        <label for="telefone_familiar">Telefone de Familiar:</label>
+        <input type="tel" id="telefone_familiar" name="telefone_familiar" required>
+
+        <h3>Dados Terceiros</h3>
+        <label for="nome_terceiro">Nome:</label>
+        <input type="text" id="nome_terceiro" name="nome_terceiro" required>
+
+        <label for="cpf_terceiro">CPF:</label>
+        <input type="text" id="cpf_terceiro" name="cpf_terceiro" required>
+
+        <label for="endereco_terceiro">Endereço:</label>
+        <input type="text" id="endereco_terceiro" name="endereco_terceiro" required>
+
+        <label for="bairro_terceiro">Bairro:</label>
+        <input type="text" id="bairro_terceiro" name="bairro_terceiro" required>
+
+        <label for="numero_terceiro">Número:</label>
+        <input type="text" id="numero_terceiro" name="numero_terceiro" required>
+
+        <label for="municipio_terceiro">Município:</label>
+        <input type="text" id="municipio_terceiro" name="municipio_terceiro" required>
+
+        <label for="telefone_terceiro">Telefone:</label>
+        <input type="tel" id="telefone_terceiro" name="telefone_terceiro" required>
+
+        <label for="status_terceiro">Status do Envolvido:</label>
+        <select id="status_terceiro" name="status_terceiro" required>
+            <option value="Ferimentos Leves">Ferimentos Leves</option>
+            <option value="Fraturas">Fraturas</option>
+            <option value="Lesões Graves">Lesões Graves</option>
+        </select>
+        
+        <h3>Dados da Custódia</h3>
+        <label for="nome_custodia">Nome:</label>
+        <input type="text" id="nome_custodia" name="nome_custodia" required>
+
+        <label for="cpf_rg_cnpj_custodia">CPF/RG (se pessoa) ou CNPJ (se empresa):</label>
+        <select id="cpf_rg_cnpj_custodia" name="cpf_rg_cnpj_custodia" required>
+            <option value="cpf">CPF</option>
+            <option value="rg">RG</option>
+            <option value="cnpj">CNPJ</option>
+        </select>
+
+        <label for="orgao_expedidor_custodia">Orgão Expedidor (se RG):</label>
+        <input type="text" id="orgao_expedidor_custodia" name="orgao_expedidor_custodia">
+
+        <label for="telefone_custodia">Telefone de Contato:</label>
+        <input type="tel" id="telefone_custodia" name="telefone_custodia" required>
+
+        <label for="municipio_custodia">Município Residência:</label>
+        <input type="text" id="municipio_custodia" name="municipio_custodia" required>
+
+        <label for="bairro_custodia">Bairro:</label>
+        <input type="text" id="bairro_custodia" name="bairro_custodia" required>
+
+        <label for="estado_custodia">Estado:</label>
+        <input type="text" id="estado_custodia" name="estado_custodia" required>
+
+        <h3>Selecionar Campo de Natureza Cadastradas</h3>
+        <!-- Adicione a lista de naturezas cadastradas aqui -->
+        <select name="natureza" id="natureza">
+            <option value="baixa">Baixa</option>
+            <option value="media">Média</option>
+            <option value="urgente">Urgente</option>
+          </select>
+        
+        <h3>Selecionar Unidades de Saúde Cadastradas</h3>
+         <!-- Adicione a lista de unidades de saúde cadastradas aqui -->
+        
+        <select name="unidade_saude" id="unidade_saude">
+           <option value="unidade_1">Unidade 1</option>
+           <option value="unidade_2">Unidade 2</option>
+           <option value="unidade_3">Unidade 3</option>
+        </select>
+        <h3>Selecionar Guarnições Cadastradas</h3>
+        <!-- Adicione a lista de guarnições cadastradas aqui -->
+        <script>
+        $(document).ready(function() {
+            // Obtenha o valor do campo de natureza
+            var natureza = $("#natureza").val();
+          
+            // Limpe os campos de guarnição
+            $("#guarnicao_1").val("");
+            $("#guarnicao_2").val("");
+          
+            // Se a natureza for urgente, defina a guarnição 1 como a guarnição padrão
+            if (natureza == "urgente") {
+              $("#guarnicao_1").val("guarnicao_1");
+            }
+          
+            // Se a natureza for média, defina a guarnição 2 como a guarnição padrão
+            else if (natureza == "media") {
+              $("#guarnicao_2").val("guarnicao_2");
+            }
+          });
+
+        </script>
+        <input type="submit" value="Cadastrar Ocorrência">
+    </form>
+    <a href="{{ url_for('menu', username=username) }}">Voltar para o Menu</a>
+</body>
+</html>

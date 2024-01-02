@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem e Edição de Pessoas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            margin: 20px;
+            color: #333;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        .table-container {
+            max-width: 800px;
+            margin: 20px auto;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        td button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+        }
+
+        td button:hover {
+            background-color: #218838;
+        }
+
+        form {
+            display: none;  /* Inicialmente, o formulário de edição estará oculto */
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        input[type="submit"], input[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            padding: 15px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+        }
+
+        .section-header {
+            font-size: 20px;
+            color: #007bff;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-item {
+            grid-column: span 1;
+        }
+    </style>
+</head>
+<body>
+    <h2>Listagem e Edição de Pessoas</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop para listar pessoas cadastradas -->
+                {% for pessoa in pessoas %}
+                    <tr>
+                        <td>{{ pessoa.id }}</td>
+                        <td>{{ pessoa.nome }}</td>
+                        <td>{{ pessoa.idade }}</td>
+                        <td>{{ pessoa.telefone }}</td>
+                        <td>{{ pessoa.email }}</td>
+                        <td>
+                            <button onclick="editarPessoa('{{ pessoa.id }}')">Editar</button>
+                            <!-- Adicione outros botões de ação se necessário -->
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Formulário de Cadastro/Edição de Pessoa -->
+    <form id="formPessoa" action="/salvar_pessoa" method="post" onsubmit="return validateForm()">
+        <!-- Campos do formulário aqui... -->
+        <input type="submit" value="Salvar">
+        <input type="button" value="Cancelar" onclick="cancelarEdicao()">
+    </form>
+
+    <a class="back-link" href="{{ url_for('menu', username=username) }}">Voltar para o Menu</a>
+
+    <script>
+        function editarPessoa(id) {
+            // Lógica para preencher o formulário com os dados da pessoa correspondente ao ID
+            // Exemplo: Recuperar os dados usando AJAX e preencher os campos do formulário
+            // Exibir o formulário de edição
+            document.getElementById('formPessoa').style.display = 'block';
+            alert("Implemente a lógica para editar a pessoa com ID " + id);
+        }
+
+        function cancelarEdicao() {
+            // Limpar os campos do formulário e ocultar o formulário de edição
+            document.getElementById('formPessoa').reset();
+            document.getElementById('formPessoa').style.display = 'none';
+        }
+
+        // Outras funções JavaScript se necessário...
+
+        function validateForm() {
+            // Adicione lógica de validação do lado do cliente aqui
+            return true;  // Retorne false se a validação falhar e você não quiser enviar o formulário.
+        }
+    </script>
+</body>
+</html>

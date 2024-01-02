@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Cadastro</h2>
+    <form action="/cadastrar" method="post">
+        <label for="new_username">Novo usuário:</label>
+        <input type="text" id="new_username" name="new_username" required pattern=".{3,}" title="O nome de usuário deve ter pelo menos 3 caracteres">
+        <br>
+        <label for="new_password">Nova senha:</label>
+        <input type="password" id="new_password" name="new_password" required pattern=".{6,}" title="A senha deve ter pelo menos 6 caracteres">
+        <br>
+        <label for="confirm_password">Confirmar Senha:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+        <br>
+        <label for="bombeirocpf">Bombeiro CPF:</label>
+        <input type="text" id="bombeirocpf" name="bombeirocpf" required>
+        <br>
+        <label for="guarnicao">Guarnição:</label>
+        <input type="text" id="guarnicao" name="guarnicao" required>
+        <br>
+        <label for="uf_guarnicao">UF da Guarnição:</label>
+        <input type="text" id="uf_guarnicao" name="uf_guarnicao" required>
+        <br>
+        <label for="municipio">Município:</label>
+        <input type="text" id="municipio" name="municipio" required>
+        <br>
+        <label for="status_guarnicao">Status da Guarnição:</label>
+        <select id="status_guarnicao" name="status_guarnicao" required>
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+        </select>
+        <br>
+        <label for="rg_militar">RG Militar:</label>
+        <input type="text" id="rg_militar" name="rg_militar" required>
+        <br>
+        <label for="rg_socorrista">RG Socorrista:</label>
+        <input type="text" id="rg_socorrista" name="rg_socorrista" required>
+        <br>
+        <input type="submit" value="Cadastrar">
+    </form>
+    <br>
+    <a href="{{ url_for('home') }}">Voltar para o Login</a>
+
+    <script>
+        const password = document.getElementById("new_password");
+        const confirm_password = document.getElementById("confirm_password");
+
+        function validatePassword() {
+            if (password.value !== confirm_password.value) {
+                confirm_password.setCustomValidity("Senhas não coincidem");
+            } else {
+                confirm_password.setCustomValidity("");
+            }
+        }
+
+        password.addEventListener("input", validatePassword);
+        confirm_password.addEventListener("input", validatePassword);
+    </script>
+    <a href="{{ url_for('home') }}">Voltar para o Login</a>
+</body>
+</html>
